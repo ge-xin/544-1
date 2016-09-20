@@ -4,7 +4,9 @@ import os
 
 def count(f, dict, totalWords, wordSet):
     for line in f:
+        line.strip()
         for word in line.split():
+            word.strip()
             wordSet.add(word)
             totalWords[0] = totalWords[0] + 1
             if(word in dict.keys()):
@@ -37,9 +39,9 @@ def pack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence,
 
     packName = 'nbmodel.txt'
     try:
-        f = open(packName, 'x+')
+        f = open(packName, 'x+', encoding='latin1')
     except FileExistsError:
-        f = open(packName, 'w')
+        f = open(packName, 'w', encoding='latin1')
     f.write(str(vocabularySize) + '\n')
 
     f.write(str(numOfHamFile[0])+ '\n')
@@ -61,7 +63,7 @@ def pack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence,
 def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence, spamDict, spamWordOccurence):
 
     packName = "nbmodel.txt"
-    f = open(packName, 'r')
+    f = open(packName, 'r', encoding='latin1')
 
     vocabularySize[0] = int(f.readline())
     numOfHamFile[0] = int(f.readline())

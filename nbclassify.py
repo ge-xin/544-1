@@ -20,7 +20,7 @@ def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccuren
     '''
 
     packName = "nbmodel.txt"
-    f = open(packName, 'r')
+    f = open(packName, 'r', encoding='latin1')
 
     vocabularySize[0] = int(f.readline())
     numOfHamFile[0] = int(f.readline())
@@ -67,63 +67,55 @@ def unpacky(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccure
         spamDict[words[0]] = int(words[1])
         line = f.readline().strip()
 
-    '''
-    # ham dict
-    for line in f:
-        line.strip()
-        if (line == "---------"): break
-        words = line.split()
-        k = words[0]
-        v = words[1]
-        hamDict[k] = v
-
-    numOfSpamFile[0] = int(f.readline())
-    spamWordsOccurence[0] = int(f.readline())
-    # spam dict
-    for line in f:
-        words = line.split()
-        k = words[0]
-        v = words[1]
-        spamDict[k] = v
-    '''
 
 
 
-
-
-def computeScore(hamDict, spamDict, wordOccurence, path, vocabularySize, pHam, pSpam, mode):
+def computeSpam(spamDict, spamWordOccurence, path, vocabularySize, pSpam, hamDict):
     f = open(path, 'r', encoding='latin1')
-    score = 0.0
-    # change score and dict reference according to the class
-    if mode == 'spam':
-        score = score + math.log2(pSpam)
-        dict = spamDict
-        otherDict = hamDict
-    elif mode == 'ham':
-        score = score + math.log2(pHam)
-        dict = hamDict
-        otherDict = spamDict
-    else:
-        raise NameError("Compute Score: wrong mode given")
+    result = 0.0
+    result += math.log(pSpam)
 
-    #read words in file
     for line in f:
         for word in line.split():
-            if word in dict.keys():
-                wordScore = math.log2((dict[word] + 1) / (wordOccurence[0] + vocabularySize[0]))
-                score = score + wordScore
-            elif word in otherDict.keys():
-                wordScore = math.log2(1 / vocabularySize[0])
-                score = score + wordScore
-            else:
-                continue
+            if word in spamDict.keys():
+                numerator = spamDict[word] + 1
+                denumerator = int(spamWordOccurence[0]) + int(vocabularySize[0])
+                p = float(numerator/denumerator)
+                result += math.log(p)
+            elif word in hamDict.keys():
+                numerator = 1
+                denumerator = int(vocabularySize[0])
+                p = float(numerator/denumerator)
+                result += math.log(p)
+            else: continue
     f.close()
-    return score
+    return result
+
+def computeHam(hamDict, hamWordOccurence, path, vocabularySize, pHam, spamDict):
+    f = open(path, 'r', encoding='latin1')
+    result = 0.0
+    result += math.log(pHam)
+
+    for line in f:
+        for word in line.split():
+            if word in hamDict.keys():
+                numerator = hamDict[word] + 1
+                denumerator = int(hamWordOccurence[0]) + int(vocabularySize[0])
+                p = float(numerator/denumerator)
+                result += math.log(p)
+            elif word in spamDict.keys():
+                numerator = 1
+                denumerator = int(vocabularySize[0])
+                p = float(numerator/denumerator)
+                result += math.log(p)
+            else: continue
+    f.close()
+    return result
 
 
-def classify(hamScore, spamScore):
-    if(hamScore > spamScore):   return True
-    elif(hamScore < spamScore): return False
+def isHam(hamP, spamP):
+    if(hamP > spamP):   return True
+    elif(hamP < spamP): return False
     else:
         decide = random.randint(1, 2)
         if(decide == 1): return True
@@ -155,19 +147,17 @@ def __main():
 
     outputName = 'nboutput.txt'
     try:
-        f = open(outputName, 'x+')
+        f = open(outputName, 'x+', encoding='latin1')
     except FileExistsError:
-        f = open(outputName, 'w')
+        f = open(outputName, 'w', encoding='latin1')
 
     for root, dirs, files in os.walk(arg_str):
         for file in files:
             if file.endswith('.txt'):
                 absPath = os.path.join(root, file)
-                print(absPath, end = ' ')
-                # print(absPath)
-                hamScore = computeScore(hamDict, spamDict, hamWordsOccurence, absPath, vocabularySize, pHam, pSpam, 'ham')
-                spamScore = computeScore(hamDict, spamDict, spamWordsOccurence, absPath, vocabularySize, pHam, pSpam, 'spam')
-                if classify(hamScore, spamScore) :
+                hamP = computeHam(hamDict, hamWordsOccurence, absPath, vocabularySize, pHam, spamDict)
+                spamP = computeSpam(spamDict, spamWordsOccurence, absPath, vocabularySize, pSpam, hamDict)
+                if isHam(hamP, spamP) :
                     f.write('ham ' + absPath + '\n')
                 else:
                     f.write('spam ' + absPath + '\n')
@@ -175,6 +165,41 @@ def __main():
                 continue
 
     f.close()
-    print("nbclassify main done.")
+    print("nbisHam main done.")
 
 __main()
+
+
+
+# def computeP(hamDict, spamDict, hamWordOccurence, spamWordOccurence, path, vocabularySize, pHam, pSpam, mode):
+#     f = open(path, 'r', encoding='latin1')
+#     result = 0.0
+#     # change resultß and di ct reference according to the class
+#     if mode == 'spam':
+#         result += math.log(pSpam)
+#         dict = spamDict
+#         otherDict = hamDict
+#         wordOccurence = hamWordOccurence[0]
+#     elif mode == 'ham':
+#         result += math.log(pHam)
+#         dict = hamDict
+#         otherDict = spamDict
+#         wordOccurence = spamWordOccurence[0]
+#     else:
+#         raise NameError("Compute P: wrong mode given")
+#
+#     #read words in file
+#     for line in f:
+#         # line.strip()
+#         for word in line.split():
+#             # word.strip()
+#             if word in dict.keys():
+#                 p = (dict[word] + 1) / (wordOccurence + vocabularySize[0])
+#                 result += math.log(p)
+#             elif word in otherDict.keys():
+#                 p = 1 / vocabularySize[0]
+#                 result += math.log(p)
+#             else:
+#                 continue
+#     f.close()
+#     return result
