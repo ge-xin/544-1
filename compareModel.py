@@ -71,6 +71,15 @@ def compare(s, t):
 
         else:  print("t Do not have key:" + str(k) + '  value:  ' +  str(s[k]))
 
+    print("------------------------------------------------------------------")
+    for k in t.keys():
+        if k in s.keys():
+            if s[k] != t[k]:
+                print("s[k]:" + str(k) + ': ' + str(s[k]))
+                print("t[k]:" + str(k) + ': ' + str(t[k]))
+
+        else:  print("s Do not have key:" + str(k) + '  value:  ' +  str(t[k]))
+
 
 def __main():
     sham = {}
