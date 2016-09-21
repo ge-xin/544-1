@@ -75,7 +75,7 @@ def computeSpam(spamDict, spamWordOccurence, path, vocabularySize, pSpam, hamDic
     result = 0.0
     result += math.log(pSpam)
 
-
+    lines = [line.rstrip('\n') for line in open....readlines()]
     line = f.readline().strip()
     while line != '':
         words = line.split(' ')
@@ -90,7 +90,7 @@ def computeSpam(spamDict, spamWordOccurence, path, vocabularySize, pSpam, hamDic
                 result += math.log(p)
             elif word in hamDict.keys():
                 numerator = 1
-                denumerator = int(vocabularySize[0])
+                denumerator = int(vocabularySize[0] + spamWordOccurence[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             else: continue
@@ -130,7 +130,7 @@ def computeHam(hamDict, hamWordOccurence, path, vocabularySize, pHam, spamDict):
                 result += math.log(p)
             elif word in spamDict.keys():
                 numerator = 1
-                denumerator = int(vocabularySize[0])
+                denumerator = int(vocabularySize[0] + hamWordOccurence[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             else: continue

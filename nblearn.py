@@ -4,9 +4,7 @@ import os
 
 def count(f, dict, totalWords, wordSet):
     for line in f:
-        line.strip()
         for word in line.split():
-            word.strip()
             wordSet.add(word)
             totalWords[0] = totalWords[0] + 1
             if(word in dict.keys()):
@@ -57,7 +55,6 @@ def pack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence,
     for k in spamDict.keys():
         f.write(k + " " + str(spamDict[k]) + '\n')
 
-    #print("pack is working")
     f.close()
 
 def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence, spamDict, spamWordOccurence):

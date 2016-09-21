@@ -43,33 +43,6 @@ def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccuren
         v = int(words[1])
         spamDict[k] = v
 
-def unpacky(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccurence, spamDict, spamWordsOccurence):
-    packName = 'nbmodel1.txt'
-
-    f = open(packName, 'r', encoding='latin1')
-    vocabularySize[0] = int(f.readline().strip())
-    numOfHamFile[0] = int(f.readline().strip())
-    hamWordsOccurence[0] = int(f.readline().strip())
-
-    line = f.readline().strip()
-    while line != '---------':
-        words = line.split(' ')
-        hamDict[words[0]] = int(words[1])
-        line = f.readline().strip()
-
-    numOfSpamFile[0] = int(f.readline().strip())
-    spamWordsOccurence[0] = int(f.readline().strip())
-
-    line = f.readline().strip()
-    count = 0
-    while line != '':
-        words = line.split(' ')
-        spamDict[words[0]] = int(words[1])
-        line = f.readline().strip()
-
-
-
-
 def computeSpam(spamDict, spamWordOccurence, path, vocabularySize, pSpam, hamDict):
     f = open(path, 'r', encoding='latin1')
     result = 0.0
@@ -77,14 +50,13 @@ def computeSpam(spamDict, spamWordOccurence, path, vocabularySize, pSpam, hamDic
 
     for line in f:
         for word in line.split():
+            denumerator = int(spamWordOccurence[0]) + int(vocabularySize[0])
             if word in spamDict.keys():
                 numerator = spamDict[word] + 1
-                denumerator = int(spamWordOccurence[0]) + int(vocabularySize[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             elif word in hamDict.keys():
                 numerator = 1
-                denumerator = int(vocabularySize[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             else: continue
@@ -98,14 +70,13 @@ def computeHam(hamDict, hamWordOccurence, path, vocabularySize, pHam, spamDict):
 
     for line in f:
         for word in line.split():
+            denumerator = int(hamWordOccurence[0]) + int(vocabularySize[0])
             if word in hamDict.keys():
                 numerator = hamDict[word] + 1
-                denumerator = int(hamWordOccurence[0]) + int(vocabularySize[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             elif word in spamDict.keys():
                 numerator = 1
-                denumerator = int(vocabularySize[0])
                 p = float(numerator/denumerator)
                 result += math.log(p)
             else: continue
@@ -138,13 +109,11 @@ def __main():
     spamDict = {}
     hamDict = {}
 
-    # unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccurence, spamDict, spamWordsOccurence)
-    unpacky(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccurence, spamDict, spamWordsOccurence)
+    unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccurence, spamDict, spamWordsOccurence)
 
     numOfFile = numOfHamFile[0] + numOfSpamFile[0]
     pHam = float(numOfHamFile[0] / numOfFile)
     pSpam = float(numOfSpamFile[0] / numOfFile)
-
     outputName = 'nboutput.txt'
     try:
         f = open(outputName, 'x+', encoding='latin1')
