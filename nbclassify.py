@@ -114,8 +114,8 @@ def computeHam(hamDict, hamWordOccurence, path, vocabularySize, pHam, spamDict):
 
 
 def isHam(hamP, spamP):
-    if(hamP > spamP):   return True
-    elif(hamP < spamP): return False
+    if hamP > spamP:   return True
+    elif hamP < spamP: return False
     else:
         decide = random.randint(1, 2)
         if(decide == 1): return True
@@ -126,7 +126,7 @@ def isHam(hamP, spamP):
 
 def __main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("path", help = 'the path as input for classifier')
+    parser.add_argument("path", help='the path as input for classifier')
     arg = parser.parse_args()
     arg_str = arg.path
 
@@ -157,7 +157,7 @@ def __main():
                 absPath = os.path.join(root, file)
                 hamP = computeHam(hamDict, hamWordsOccurence, absPath, vocabularySize, pHam, spamDict)
                 spamP = computeSpam(spamDict, spamWordsOccurence, absPath, vocabularySize, pSpam, hamDict)
-                if isHam(hamP, spamP) :
+                if isHam(hamP, spamP):
                     f.write('ham ' + absPath + '\n')
                 else:
                     f.write('spam ' + absPath + '\n')
