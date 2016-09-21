@@ -3,22 +3,7 @@ import os
 import random
 import math
 
-
 def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordsOccurence, spamDict, spamWordsOccurence):
-
-    '''
-    the format of pack
-    vocabularySize
-    numOfHamFile
-    numOfSpamFile
-    hamWordsOccurence
-    hamDictSize
-    hamDict
-    spamWordsOccurence
-    spamDictSize
-    spamDict
-    '''
-
     packName = "nbmodel.txt"
     f = open(packName, 'r', encoding='latin1')
 
@@ -85,7 +70,7 @@ def computeHam(hamDict, hamWordOccurence, path, vocabularySize, pHam, spamDict):
 
 
 def isHam(hamP, spamP):
-    if hamP > spamP:   return True
+    if hamP > spamP: return True
     elif hamP < spamP: return False
     else:
         decide = random.randint(1, 2)
@@ -137,38 +122,3 @@ def __main():
     print("nbisHam main done.")
 
 __main()
-
-
-
-# def computeP(hamDict, spamDict, hamWordOccurence, spamWordOccurence, path, vocabularySize, pHam, pSpam, mode):
-#     f = open(path, 'r', encoding='latin1')
-#     result = 0.0
-#     # change resultß and di ct reference according to the class
-#     if mode == 'spam':
-#         result += math.log(pSpam)
-#         dict = spamDict
-#         otherDict = hamDict
-#         wordOccurence = hamWordOccurence[0]
-#     elif mode == 'ham':
-#         result += math.log(pHam)
-#         dict = hamDict
-#         otherDict = spamDict
-#         wordOccurence = spamWordOccurence[0]
-#     else:
-#         raise NameError("Compute P: wrong mode given")
-#
-#     #read words in file
-#     for line in f:
-#         # line.strip()
-#         for word in line.split():
-#             # word.strip()
-#             if word in dict.keys():
-#                 p = (dict[word] + 1) / (wordOccurence + vocabularySize[0])
-#                 result += math.log(p)
-#             elif word in otherDict.keys():
-#                 p = 1 / vocabularySize[0]
-#                 result += math.log(p)
-#             else:
-#                 continue
-#     f.close()
-#     return result

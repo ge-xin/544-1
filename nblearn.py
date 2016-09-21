@@ -57,32 +57,6 @@ def pack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence,
 
     f.close()
 
-def unpack(vocabularySize, numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence, spamDict, spamWordOccurence):
-
-    packName = "nbmodel.txt"
-    f = open(packName, 'r', encoding='latin1')
-
-    vocabularySize[0] = int(f.readline())
-    numOfHamFile[0] = int(f.readline())
-    numOfSpamFile[0] = int(f.readline())
-    hamWordOccurence[0] = int(f.readline())
-    hamDictSize = int(f.readline())
-
-    for i in range(0, hamDictSize, 1):
-        words = f.readline().split()
-        k = words[0]
-        v = int(words[1])
-        hamDict[k] = v
-
-    spamWordOccurence[0] = int(f.readline())
-    spamDictSize = int(f.readline())
-
-    for i in range(0, spamDictSize, 1):
-        words = f.readline().split()
-        k = words[0]
-        v = int(words[1])
-        spamDict[k] = v
-
 def __main():
     parser = argparse.ArgumentParser()
 
@@ -101,7 +75,6 @@ def __main():
     for root, dirs, files in os.walk(arg_str):
         for file in files:
             filePath = os.path.join(root, file)
-            # print(filePath, end=' ')
             if root.endswith('ham'):
                 if filePath.endswith('.txt'):
                     learn(filePath, hamDict, hamWordOccurence, wordSet, numOfHamFile)
@@ -110,37 +83,7 @@ def __main():
                     learn(filePath, spamDict, spamWordOccurence, wordSet, numOfSpamFile)
             else:
                 continue
-                # print("Do Nothing:")
-    '''
-    ham = 0
-    for k in hamDict.keys():
-        ham += hamDict[k]
-
-    spam = 0
-    for k in spamDict.keys():
-        spam += spamDict[k]
-    '''
 
     pack(len(wordSet), numOfHamFile, numOfSpamFile, hamDict, hamWordOccurence, spamDict, spamWordOccurence)
 
-    '''
-     # Following are test message
-        aTotalVocabularySize = [0]
-        aNumOfHamFile = [0]
-        aNumOfSpamFile = [0]
-        aHamDict = {}
-        ahamWordOccurence = [0]
-        aSpamDict = {}
-        aspamWordOccurence = [0]
-        unpack(aTotalVocabularySize, aNumOfHamFile, aNumOfSpamFile, aHamDict, ahamWordOccurence, aSpamDict, aspamWordOccurence)
-
-        if aTotalVocabularySize[0] != len(wordSet):   print("totalVocabulary Wrong!")
-        if aNumOfHamFile[0] != numOfHamFile[0]:    print("numOfHamFile Wrong!")
-        if aNumOfSpamFile[0] != numOfSpamFile[0]:   print("numOfSpamFile Wrong!")
-        if aHamDict != hamDict: print("hamDict Wrong!")
-        if ahamWordOccurence != hamWordOccurence: print("hamWordOccurence Wrong!")
-        if aSpamDict != spamDict:  print("spamDict Wrong!")
-        if aspamWordOccurence != spamWordOccurence: print("spamWordOccurence Wrong!")
-        print("Done.")
-    '''
 __main()
