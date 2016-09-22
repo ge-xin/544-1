@@ -3,7 +3,7 @@ import random
 import shutil
 
 def __main():
-    source = '/Users/Xin/Downloads/Spam or Ham'
+    source = '/Users/Xin/Downloads/544-1'
     spam_lst = []
     spam_name = []
     ham_lst = []
