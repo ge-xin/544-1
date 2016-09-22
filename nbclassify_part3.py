@@ -127,6 +127,6 @@ def __main():
                 continue
 
     f.close()
-    print("nbisHam main done.")
+    print("nbclassify: part 3 version done.")
 
 __main()
