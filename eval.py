@@ -31,8 +31,16 @@ def eval():
         elif((result == 'spam') and (file.endswith('.spam.txt'))): correctSpams +=1
         else: continue
 
-    print("Spam:")
-    print('Precision: ' + str(correctSpams / spams) + ' ' + 'Recall: ' + str(correctSpams / actualSpams))
+    p = correctHams/hams
+    r = correctHams/actualHams
+    f = (2 * p * r)/(p + r)
     print("Ham:")
-    print('Precision: ' + str(correctHams / hams) + ' ' + 'Recall: ' + str(correctHams / actualHams))
+    print('Precision: ' + str(correctHams / hams) + ' ' + 'Recall: ' + str(correctHams / actualHams) + ' F1: ' + str(f))
+
+    p = correctSpams/spams
+    r = correctSpams/actualSpams
+    f = (2 * p * r)/(p + r)
+    print("Spam:")
+    print('Precision: ' + str(correctSpams / spams) + ' ' + 'Recall: ' + str(correctSpams / actualSpams) + ' F1: ' + str(f))
+
 eval()
