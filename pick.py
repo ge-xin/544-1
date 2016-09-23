@@ -2,6 +2,7 @@ import os
 import random
 import shutil
 
+
 def __main():
     source = '/Users/Xin/Downloads/544-1'
     spam_lst = []
@@ -47,12 +48,16 @@ def __main():
         spam_lst.remove(spam_lst[i])
         spam_name.remove(spam_name[i])
         spam_fetch -= 1
+        random.shuffle(spam_lst)
+        random.shuffle(spam_name)
     while ham_fetch > 0:
         i = random.randint(0, (len(ham_lst) - 1))
         shutil.copyfile(ham_lst[i], train + 'ham/' + ham_name[i])
         ham_lst.remove(ham_lst[i])
         ham_name.remove(ham_name[i])
         ham_fetch -= 1
+        random.shuffle(ham_lst)
+        random.shuffle(ham_name)
 
     for i in range(len(spam_lst)):
         shutil.copyfile(spam_lst[i], dev + 'spam/' + spam_name[i])
