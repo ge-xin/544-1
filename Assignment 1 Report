@@ -24,9 +24,9 @@ Use script(pick.py) that randomly pick 10% from trainning data.
 Dealing with unknown words differently. Do add-one smoothing to all words, including words that do not appear in training data(spam and ham).
 
 4. Best performance results based on enhancements. Note that these could be the same or worse than the standard implementation.
-4a. spam precision:0.9862870770606648
-4b. spam recall: 0.9816051031004303
-4c. spam F1 score: 0.9839405204460967
-4d. ham precision:0.9856014862981886
-4e. ham recall: 0.9892773892773893
-4f. ham F1 score:0.9874360167519777
+4a. spam precision:0.992553778268064
+4b. spam recall: 0.9793197278911565
+4c. spam F1 score: 0.9858923435145871
+4d. ham precision: 0.9509360877985797
+4e. ham recall: 0.982
+4f. ham F1 score: 0.9662184322728764
