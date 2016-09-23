@@ -25,7 +25,7 @@ Dealing with unknown words differently. Do add-one smoothing to all words, inclu
 4. Best performance results based on enhancements. Note that these could be the same or worse than the standard implementation.
 4a. spam precision:0.99
 4b. spam recall: 0.98
-4c. spam F1 score: 0.98
+4c. spam F1 score: 0.99
 4d. ham precision:0.95
 4e. ham recall: 0.98
-4f. ham F1 score:0.96
+4f. ham F1 score:0.97
