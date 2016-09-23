@@ -28,7 +28,7 @@ def eval():
         else: raise KeyError("Eval: result")
 
         if((result == 'ham') and (file.endswith('.ham.txt'))): correctHams += 1
-        elif((result == 'spam') and (file.endswith('.spam.txt'))): correctSpams +=1
+        elif((result == 'spam') and (file.endswith('.spam.txt'))): correctSpams += 1
         else: continue
 
     p = correctHams/hams

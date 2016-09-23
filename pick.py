@@ -4,7 +4,8 @@ import shutil
 
 
 def __main():
-    source = '/Users/Xin/Downloads/544-1'
+    #source = '/Users/Xin/Downloads/544-1'
+    source = '/Users/Xin/Downloads/544-1/train/'
     spam_lst = []
     spam_name = []
     ham_lst = []
