@@ -17,7 +17,7 @@ Name:Xin Ge
 2d. ham precision:0.8923357664233577
 2e. ham recall: 0.978
 2f. ham F1 score:0.933206106870229
-Use script(pick.py) that randomly pick 10% ham and 10% spam from all the txt files, and leave rest of them to do the classification.
+Use script(pick.py) that randomly pick 10% from trainning data.
 
 3. Description of enhancement(s) you tried (e.g., different approach(es) to smoothing, treating common words differently, dealing with unknown words differently):
 
